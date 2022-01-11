@@ -12,7 +12,7 @@ export default class BookView extends Component {
             <ol>
             {this.props.books.map((book, index) => (
                 <div key={index}>
-                <li>{book.title} {book.shelf}</li>
+                <li>{book.title}</li>
                 <select value={book.shelf ? book.shelf : 'none'} onChange={(e) => this.props.upDateShelf(book, e.target.value)}>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
