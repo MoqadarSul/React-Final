@@ -14,17 +14,31 @@ export default class SearchBar extends Component {
       handleSubmit = event => {
         BooksAPI.search(this.state.value)
         .then((results) => {
+          const result1 = this.upDateSearchedShelfs(results);
           this.setState(() => ({
-            results
+            results : result1,
         }))
       })
         event.preventDefault();
       }
-     
-
-
+      upDateSearchedShelfs = (results) =>{
+        const myBooks = this.props.books
+        const addToState = results.filter((result) => 
+        myBooks.find(b => 
+          {
+          if(b.id === result.id) {
+            result.shelf = b.shelf
+            return result
+          }
+        }))
+        console.log(addToState)
+        myBooks.concat(addToState)
+        console.log(results)
+        return results
+       }
+      
     render() {
-      console.log(this.state.results)
+      
         return (
             <div>
             <h1>Search Bar Goes here</h1>
@@ -37,15 +51,19 @@ export default class SearchBar extends Component {
       </form>
 <ol>
       {this.state.results.map((book, index) => {
-                return (
-                  <div key={index}>
-    <li>
-                    <p>{book.title}</p>
-    </li>
-                  </div>
-                );
-              })}
-              </ol>
+   return (
+       <div key={index}>
+          <li><p>{book.title}</p></li>
+             <select value={book.shelf ? book.shelf : 'none'} onChange={(e) => this.props.upDateShelf(book, e.target.value)}>
+                <option value="currentlyReading">Currently Reading</option>
+                <option value="wantToRead">Want to Read</option>
+                <option value="read">Read</option>
+                <option value="none">None</option>
+           </select>
+         </div>
+       );
+    })}
+ </ol>
             </div>
         )
     }

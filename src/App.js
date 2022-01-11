@@ -18,11 +18,22 @@ class BooksApp extends React.Component {
   }
 
   updateShelf = (book, shelfName) => {
-  
-      BooksAPI.update(book, shelfName)
-      .then(this.setState(currentState => ({
+    //find item in the list to update ui
+      const currentBook = this.state.books.find((bookElement) => bookElement.id === book.id)
+
+      if(currentBook){
+        currentBook.shelf = shelfName;
+         BooksAPI.update(book, shelfName)
+         .then(this.setState(currentState => ({
         books: currentState.books
       })))
+      }else{
+        book.shelf = shelfName;
+        BooksAPI.update(book, shelfName)
+        .then(this.setState(prevState => ({
+          books: [...this.state.books, book]
+        })))
+      }
     }
 
 
@@ -32,7 +43,7 @@ class BooksApp extends React.Component {
       
       <div className="app">
        <ListBooks books = {this.state.books} upDateShelf = {this.updateShelf}/>
-       <SearchBar />
+       <SearchBar upDateShelf = {this.updateShelf} books = {this.state.books}/>
       </div>
     )
   }
