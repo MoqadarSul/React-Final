@@ -23,6 +23,10 @@ export default class ListBooks extends Component {
      
       const upDateShelf = this.props.upDateShelf;
         return (
+          <div className="list-books">
+          <div className="list-books-title">
+            <h1>MyReads</h1>
+          </div>
             <div className="list-books-content">
               {this.state.shelves.map((shelf, index) => {
                 const filteredCategories = this.props.books.filter(book => book.shelf === shelf.category);
@@ -37,6 +41,8 @@ export default class ListBooks extends Component {
                 );
               })}
             </div>
+            </div>
           );
+          
     }
 }
