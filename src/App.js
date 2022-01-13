@@ -6,7 +6,8 @@ import SearchBar from './SearchBar'
 
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: [],
+    showSearchPage : false
   }
   componentDidMount() {
     BooksAPI.getAll()
@@ -41,9 +42,17 @@ class BooksApp extends React.Component {
 
     return (
       
-      <div className="app">
-       <ListBooks books = {this.state.books} upDateShelf = {this.updateShelf}/>
-       <SearchBar upDateShelf = {this.updateShelf} books = {this.state.books}/>
+      <div className="app">{
+        this.state.showSearchPage ? (
+          <SearchBar upDateShelf = {this.updateShelf} books = {this.state.books}/>
+        ): (
+          <ListBooks books = {this.state.books} upDateShelf = {this.updateShelf}/>
+        )
+      }
+        <div className="open-search">
+              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+        </div>
+       
       </div>
     )
   }
