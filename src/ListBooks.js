@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { update } from './BooksAPI';
+import { Link } from 'react-router-dom'
 import BookView from './BookView';
 
 export default class ListBooks extends Component {
@@ -41,6 +42,10 @@ export default class ListBooks extends Component {
                 );
               })}
             </div>
+            <Link
+              to='/search'
+              className="open-search">
+            </Link>
             </div>
           );
           

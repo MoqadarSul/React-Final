@@ -1,24 +1,23 @@
 import React, { Component } from "react";
 
 export default class BookView extends Component {
+  
   render() {
-    const upDateShelf = this.props.upDateShelf;
     return (
       <div>
         <ol className="books-grid">
           {this.props.books.map((book, index) => (
-            <li>
+            <li key={book.id}>
               <div className="book">
-                <div key={index}>
+                <div key={book.id}>
                   <div className="book-top">
                     <div
                       className="book-cover"
-                      style={{
-                        width: 128,
-                        height: 188,
-                        backgroundImage: `url("${book.imageLinks.thumbnail}")`,
-                      }}
-                    />
+                      style={{ width: 128, height: 193,
+                        backgroundImage: (book.imageLinks) ? 
+                        `url(${book.imageLinks.thumbnail})`
+                        : `url(${'icons/no_image_available'})` }}>
+                        </div>
                     <div className="book-shelf-changer">
                       <select
                         value={book.shelf ? book.shelf : "none"}
