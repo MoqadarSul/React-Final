@@ -4,6 +4,7 @@ import './App.css'
 import ListBooks from './ListBooks'
 import SearchBar from './SearchBar'
 import { Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 class BooksApp extends React.Component {
@@ -53,8 +54,10 @@ class BooksApp extends React.Component {
           updateShelf={this.updateShelf}
           />
       )} />
-    
-       
+      <Link to="/search" className="open-search">
+        <button type="button">
+         </button>
+        </Link>
     </div>
     )
   }

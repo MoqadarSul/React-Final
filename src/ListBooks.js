@@ -24,6 +24,7 @@ export default class ListBooks extends Component {
      
       const upDateShelf = this.props.upDateShelf;
         return (
+          <div>
           <div className="list-books">
           <div className="list-books-title">
             <h1>MyReads</h1>
@@ -41,11 +42,10 @@ export default class ListBooks extends Component {
                   </div>
                 );
               })}
-            </div>
-            <Link
-              to='/search'
-              className="open-search">
-            </Link>
+            </div> 
+            
+            </div> 
+           
             </div>
           );
           
