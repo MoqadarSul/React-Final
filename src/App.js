@@ -20,18 +20,16 @@ class BooksApp extends React.Component {
       })
   }
 
-  updateShelf = (book, shelfName) => {
-    //find item in the list to update ui
-      const currentBook = this.state.books.find((bookElement) => bookElement.id === book.id)
-
-      if(currentBook){
-        currentBook.shelf = shelfName;
-         BooksAPI.update(book, shelfName)
+  changeShelf = (book, shelfName) => {
+      const currentBook = this.state.books.filter((bookElement) => bookElement.id === book.id)
+      book.shelf = shelfName;
+      if(currentBook[0]){
+        BooksAPI.update(book, shelfName)
          .then(this.setState(currentState => ({
         books: currentState.books
       })))
       }else{
-        book.shelf = shelfName;
+        //adding the book to our list of books
         BooksAPI.update(book, shelfName)
         .then(this.setState(prevState => ({
           books: [...this.state.books, book]
@@ -45,13 +43,13 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
       <Route exact path='/' render={() => (
-      <ListBooks books = {this.state.books} upDateShelf = {this.updateShelf}/>
+      <ListBooks books = {this.state.books} upDateShelf = {this.changeShelf}/>
       )} />
 
       <Route exact path='/search' render={() => (
           <SearchBar
           books={this.state.books}
-          updateShelf={this.updateShelf}
+          updateShelf={this.changeShelf}
           />
       )} />
       <Link to="/search" className="open-search">

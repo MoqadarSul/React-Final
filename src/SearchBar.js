@@ -8,57 +8,44 @@ export default class SearchBar extends Component {
     results: [],
   };
 
-  updateQuery = (value) => {
+  upDateSearch = (value) => {
     if (value.length > 0) {
-      this.setState(
-        {
-          value: value,
-          results: []
-        })
-      //try and see if we can also send this.state.value might not work because of the asyn state update
-      //state value wont work
-      this.searchBooks(value)
-    }
-    else {
       this.setState({
-      value: '',
-      results: []
-    })
-    }
-  }
-
-
-  searchBooks = (bookSearched) => {
-    if (bookSearched.length > 0) {
-      BooksAPI.search(bookSearched).then((results) => {
-        const result1 = this.upDateSearchedShelfs(results);
-          this.setState(() => ({
-            results: result1,
-          }));
+        value,
+        results: [],
+      });
+      
+      this.searchBooks(value);
+    } else {
+      this.setState({
+        value: "",
+        results: [],
       });
     }
+  };
 
-  }
-
-  upDateSearchedShelfs = (results) => {
-    if (!results.error) {
-      const myBooks = this.props.books;
-      const addToState = results.filter((result) =>
-        myBooks.find((b) => {
-          if (b.id === result.id) {
-            result.shelf = b.shelf;
-            return result;
-          }
-        })
-      );
-      myBooks.concat(addToState)
-      return results;
+  searchBooks = (bookSearched) => {
+    const myBooks = this.props.books;
+    if (bookSearched.length > 0) {
+      BooksAPI.search(bookSearched).then((results) => {
+        if (!results.error) {
+          results.forEach((book) => {
+            myBooks.forEach((element) => {
+              if (element.id === book.id) {
+                book.shelf = element.shelf;
+              }
+            });
+          });
+          this.setState(() => ({
+            results,
+          }));
+        }
+      });
     }
   };
 
   render() {
-   const upDateShelf = this.props.upDateShelf;
-    // <BookView books = {this.state.results}/>   
+    const upDateShelf = this.props.updateShelf;
     return (
       <div>
         <div className="search-books">
@@ -68,15 +55,17 @@ export default class SearchBar extends Component {
                 type="text"
                 placeholder="Search by title or author"
                 value={this.state.value}
-                onChange={(e) => this.updateQuery(e.target.value)}
+                onChange={(e) => this.upDateSearch(e.target.value)}
               />
             </div>
           </div>
           <div className="search-books-results">
-            {this.state.results ? ( <BookView books={this.state.results}  upDateShelf ={upDateShelf}/>) : (<h1>No Results for {this.state.value}</h1>)}
+            {this.state.results ? (
+              <BookView books={this.state.results} upDateShelf={upDateShelf} />
+            ) : (
+              <h1>No Results for {this.state.value}</h1>
+            )}
           </div>
-         
-
         </div>
       </div>
     );

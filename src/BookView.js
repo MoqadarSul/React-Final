@@ -6,7 +6,7 @@ export default class BookView extends Component {
     return (
       <div>
         <ol className="books-grid">
-          {this.props.books.map((book, index) => (
+          {this.props.books.map((book) => (
             <li key={book.id}>
               <div className="book">
                 <div key={book.id}>
