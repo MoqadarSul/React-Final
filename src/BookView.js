@@ -3,6 +3,7 @@ import React, { Component } from "react";
 export default class BookView extends Component {
   
   render() {
+    console.log(this.props.books)
     return (
       <div>
         <ol className="books-grid">
@@ -13,10 +14,10 @@ export default class BookView extends Component {
                   <div className="book-top">
                     <div
                       className="book-cover"
-                      style={{ width: 128, height: 193,
-                        backgroundImage: (book.imageLinks) ? 
-                        `url(${book.imageLinks.thumbnail})`
-                        : `url(${'icons/no_image_available'})` }}>
+                      style={{ 
+                        width: 128, 
+                        height: 193,
+                        backgroundImage: (book.imageLinks) ? `url(${book.imageLinks.thumbnail})`: `url(${''})` }}>
                         </div>
                     <div className="book-shelf-changer">
                       <select
@@ -25,6 +26,7 @@ export default class BookView extends Component {
                           this.props.upDateShelf(book, e.target.value)
                         }
                       >
+                        <option disabled>Move to...</option>
                         <option value="currentlyReading">
                           Currently Reading
                         </option>
@@ -36,7 +38,13 @@ export default class BookView extends Component {
                   </div>
                 </div>
                 <div className="book-title">{book.title}</div>
-                <div className="book-authors">{book.authors}</div>
+                <div className="book-authors">
+                  {book.authors ?  book.authors.map((author, index) =>{
+                    return (
+                      <div key={index}>{author}</div>
+                    )
+                  }):''}
+                  </div>
               </div>
             </li>
           ))}
